@@ -1,0 +1,42 @@
+---
+title: "gganimate package presentation"
+author: "Gabriella Schuhe"
+---
+```{r}
+install.packages("gganimate")
+library(gganimate)
+library(tidyverse)
+#> Loading required package: ggplot2
+
+# start with a static plot
+p <- ggplot(iris, aes(x = Petal.Width, y = Petal.Length)) + 
+  geom_point()
+
+plot(p)
+```
+
+
+```{r}
+#okay now this is like the same plot but now its moving
+anim <- p + 
+  transition_states(Species,
+                    transition_length = 2,
+                    state_length = 1)
+
+anim
+
+ggplot(iris, aes(x = Petal.Width, y = Petal.Length)) + 
+  geom_point(aes(colour = Species)) + 
+  transition_states(Species,
+                    transition_length = 1,
+                    state_length = 1)
+
+# Different size and resolution
+animate(
+  anim + ease_aes(x = 'bounce-out') + enter_fly(x_loc = -1) + exit_fade(),
+  width = 400, height = 600, res = 35)
+
+```
+
+
+
